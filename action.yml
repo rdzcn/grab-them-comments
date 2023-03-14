@@ -1,0 +1,55 @@
+name: 'Get comments from actions'
+description: 'Create, update, append, prepend, delete or find a pull request or issue comment'
+inputs:
+  token:
+    description: 'GitHub token'
+    default: ${{ github.token }}
+    required: false
+  repository:
+    description: 'The GitHub repository'
+    default: ${{ github.repository }}
+    required: false
+  type:
+    description: create|update|append|prepend|delete|find
+    required: true
+  body:
+    description: 'The comment body'
+    required: false
+  number:
+    description: 'The number of the issue or pull request'
+    required: false
+  # Update/Append comment input
+  # Delete comment input
+  comment_id:
+    description: 'Comment ID. Required to update or delete the comment'
+    required: false
+  # Find comment input
+  author:
+    description: 'GitHub user name of the comment author to find a comment .'
+    required: false
+  search_term:
+    description: 'Search term, which is included in the comment body.'
+    required: false
+  direction:
+    description: 'older - To find an older comment. newer - To find a newer comment.'
+    default: older
+    required: false
+  # Reactions
+  reactions:
+    description: 'Add comma separated list of reactions to react on the comment.'
+    required: false
+
+outputs:
+  comment_id:
+    description: 'The id of the new comment'
+  comment_body:
+    description: 'The body of the new comment'
+
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+
+branding:
+  icon: 'message-circle'  
+  color: 'blue'
+

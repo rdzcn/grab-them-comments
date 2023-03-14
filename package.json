@@ -1,0 +1,19 @@
+{
+  "name": "grab-them-comments",
+  "version": "1.0.0",
+  "description": "grab and update PR or issue comments",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rdzcn/grab-them-comments.git"
+  },
+  "author": "rdzcn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rdzcn/grab-them-comments/issues"
+  },
+  "homepage": "https://github.com/rdzcn/grab-them-comments#readme"
+}

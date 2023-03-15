@@ -9858,15 +9858,15 @@ async function run() {
 			return outVars;
 		}
 
-		const { body } = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.pull_request;
+		// const { body } = context.payload.pull_request;
 
-		if (body) {
-			(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)("Comment found in Description");
-			return {
-				comment_id: body,
-				comment_body: body,
-			};
-		}
+		// if (body) {
+		// 	info("Comment found in Description");
+		// 	return {
+		// 		comment_id: body,
+		// 		comment_body: body,
+		// 	};
+		// }
 
 		const args = {
 			owner,

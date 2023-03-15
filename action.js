@@ -23,15 +23,15 @@ async function run() {
 			return outVars;
 		}
 
-		const { body } = context.payload.pull_request;
+		// const { body } = context.payload.pull_request;
 
-		if (body) {
-			info("Comment found in Description");
-			return {
-				comment_id: body,
-				comment_body: body,
-			};
-		}
+		// if (body) {
+		// 	info("Comment found in Description");
+		// 	return {
+		// 		comment_id: body,
+		// 		comment_body: body,
+		// 	};
+		// }
 
 		const args = {
 			owner,

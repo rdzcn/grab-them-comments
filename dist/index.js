@@ -9861,6 +9861,7 @@ async function run() {
 		const { body } = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.pull_request;
 
 		if (body) {
+			(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)("Comment found in Description");
 			return {
 				comment_id: body,
 				comment_body: body,
@@ -9883,6 +9884,7 @@ async function run() {
 		);
 
 		if (foundComment) {
+			(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)("Comment found in Comments section");
 			(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`Comment found for a search term: '${searchTerm}'.`);
 			(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`Comment ID: '${foundComment.id}'.`);
 

@@ -26,6 +26,7 @@ async function run() {
 		const { body } = context.payload.pull_request;
 
 		if (body) {
+			info("Comment found in Description");
 			return {
 				comment_id: body,
 				comment_body: body,
@@ -48,6 +49,7 @@ async function run() {
 		);
 
 		if (foundComment) {
+			info("Comment found in Comments section");
 			info(`Comment found for a search term: '${searchTerm}'.`);
 			info(`Comment ID: '${foundComment.id}'.`);
 

@@ -1,77 +1,85 @@
-import {
-	getInput, info, setFailed, setOutput,
-} from "@actions/core";
-import { getOctokit } from "@actions/github";
+import { getInput, info, setFailed, setOutput } from "@actions/core";
+import { getOctokit, context } from "@actions/github";
 
 async function run() {
-	let owner;
-	let repo;
-	let issueNumber;
-	let searchTerm;
+  let owner;
+  let repo;
+  let issueNumber;
+  let searchTerm;
 
-	const token = getInput("token");
-	const octokit = getOctokit(token);
+  const token = getInput("token");
+  const octokit = getOctokit(token);
 
-	async function findComment() {
-		const outVars = {
-			comment_id: "",
-			comment_body: "",
-		};
+  async function findComment() {
+    const outVars = {
+      comment_id: "",
+      comment_body: "",
+    };
 
-		if (!searchTerm) {
-			setFailed("Please enter a search them");
-			return outVars;
-		}
+    if (!searchTerm) {
+      setFailed("Please enter a search them");
+      return outVars;
+    }
 
-		const args = {
-			owner,
-			repo,
-			issue_number: issueNumber,
-		};
+    const body =
+      context.eventName === "issue_comment"
+        ? context.payload.comment.body
+        : context.payload.pull_request.body || "";
 
-		const listComments = await octokit.paginate(
-			octokit.rest.issues.listComments,
-			args,
-		);
+    console.log("CONTEXT", context);
 
-		const foundComment = listComments.find((listComment) => listComment.body
-      && listComment.body.includes(searchTerm));
+    const args = {
+      owner,
+      repo,
+      issue_number: issueNumber,
+    };
 
-		if (foundComment) {
-			info(`Comment found for a search term: '${searchTerm}'.`);
-			info(`Comment ID: '${foundComment.id}'.`);
+    const listComments = await octokit.paginate(
+      octokit.rest.issues.listComments,
+      args
+    );
 
-			return {
-				comment_id: foundComment.id,
-				comment_body: foundComment.body,
-			};
-		}
+    const foundComment = listComments.find(
+      (listComment) => listComment.body && listComment.body.includes(searchTerm)
+    );
 
-		info("Comment not found.");
+    if (foundComment) {
+      info(`Comment found for a search term: '${searchTerm}'.`);
+      info(`Comment ID: '${foundComment.id}'.`);
 
-		return {
-			comment_id: "",
-			comment_body: "",
-		};
-	}
+      return {
+        comment_id: foundComment.id,
+        comment_body: foundComment.body,
+      };
+    }
 
-	try {
-		const repository = getInput("repository");
-		[owner, repo] = repository ? repository.split("/") : process.env.GITHUB_REPOSITORY.split("/");
-		issueNumber = getInput("number");
-		searchTerm = getInput("search_term");
+    info("Comment not found.");
 
-		let outVars = { comment_id: "", comment_body: "" };
-		outVars = await findComment();
+    return {
+      comment_id: "",
+      comment_body: "",
+    };
+  }
 
-		info(`comment_id : ${outVars.comment_id}`);
-		info(`comment_body : ${outVars.comment_body}`);
+  try {
+    const repository = getInput("repository");
+    [owner, repo] = repository
+      ? repository.split("/")
+      : process.env.GITHUB_REPOSITORY.split("/");
+    issueNumber = getInput("number");
+    searchTerm = getInput("search_term");
 
-		setOutput("comment_id", outVars.comment_id);
-		setOutput("comment_body", outVars.comment_body);
-	} catch (error) {
-		setFailed(error.message);
-	}
+    let outVars = { comment_id: "", comment_body: "" };
+    outVars = await findComment();
+
+    info(`comment_id : ${outVars.comment_id}`);
+    info(`comment_body : ${outVars.comment_body}`);
+
+    setOutput("comment_id", outVars.comment_id);
+    setOutput("comment_body", outVars.comment_body);
+  } catch (error) {
+    setFailed(error.message);
+  }
 }
 
 run();

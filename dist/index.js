@@ -9854,9 +9854,15 @@ async function run() {
 		};
 
 		if (!searchTerm) {
-			(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)("Either search term (search_term) or comment author (author) is required.");
+			(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.setFailed)("Please enter a search them");
 			return outVars;
 		}
+
+		const body = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.eventName === "issue_comment"
+			? _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.comment.body
+			: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.pull_request.body || "";
+
+		console.log("CONTEXT", _actions_github__WEBPACK_IMPORTED_MODULE_1__.context);
 
 		const args = {
 			owner,

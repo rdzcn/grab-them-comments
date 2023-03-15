@@ -20,7 +20,7 @@ inputs:
     required: false
   search_term:
     description: "Search term, which is included in the comment body."
-    required: false
+    required: required
 
 outputs:
   comment_id:

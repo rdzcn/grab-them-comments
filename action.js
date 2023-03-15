@@ -25,15 +25,12 @@ async function run() {
 
 		const { body } = context.payload.pull_request;
 
-		// if (body) {
-		// 	return {
-		// 		comment_id: body,
-		// 		comment_body: body,
-		// 	};
-		// }
-
-		console.log("CONTEXT", context);
-		console.log("OCTOKIT", octokit);
+		if (body) {
+			return {
+				comment_id: body,
+				comment_body: body,
+			};
+		}
 
 		const args = {
 			owner,

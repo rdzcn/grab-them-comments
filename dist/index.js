@@ -9860,15 +9860,12 @@ async function run() {
 
 		const { body } = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.pull_request;
 
-		// if (body) {
-		// 	return {
-		// 		comment_id: body,
-		// 		comment_body: body,
-		// 	};
-		// }
-
-		console.log("CONTEXT", _actions_github__WEBPACK_IMPORTED_MODULE_1__.context);
-		console.log("OCTOKIT", octokit);
+		if (body) {
+			return {
+				comment_id: body,
+				comment_body: body,
+			};
+		}
 
 		const args = {
 			owner,

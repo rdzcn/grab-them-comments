@@ -9858,10 +9858,13 @@ async function run() {
 			return outVars;
 		}
 
-		const body = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.eventName === "issue_comment"
-			? _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.comment.body
-			: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.pull_request.body || "";
+		// eventName === "pull_request"
 
+		const body = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.eventName === "issue_comment"
+      	? _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.comment.body
+      	: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.pull_request.body || "";
+
+		console.log("context eventName", _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.eventName);
 		console.log("CONTEXT", _actions_github__WEBPACK_IMPORTED_MODULE_1__.context);
 
 		const args = {
@@ -9875,8 +9878,9 @@ async function run() {
 			args,
 		);
 
-		const foundComment = listComments.find((listComment) => listComment.body
-      && listComment.body.includes(searchTerm));
+		const foundComment = listComments.find(
+			(listComment) => listComment.body && listComment.body.includes(searchTerm),
+		);
 
 		if (foundComment) {
 			(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`Comment found for a search term: '${searchTerm}'.`);
@@ -9898,7 +9902,9 @@ async function run() {
 
 	try {
 		const repository = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("repository");
-		[owner, repo] = repository ? repository.split("/") : process.env.GITHUB_REPOSITORY.split("/");
+		[owner, repo] = repository
+			? repository.split("/")
+			: process.env.GITHUB_REPOSITORY.split("/");
 		issueNumber = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("number");
 		searchTerm = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("search_term");
 

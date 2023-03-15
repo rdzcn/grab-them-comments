@@ -19,7 +19,7 @@ async function run() {
 		};
 
 		if (!searchTerm) {
-			setFailed("Either search term (search_term) or comment author (author) is required.");
+			setFailed("Please enter a search them");
 			return outVars;
 		}
 

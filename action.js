@@ -23,14 +23,17 @@ async function run() {
 			return outVars;
 		}
 
-		// eventName === "pull_request"
+		const { body } = context.payload.pull_request;
 
-		const body = context.eventName === "issue_comment"
-      	? context.payload.comment.body
-      	: context.payload.pull_request.body || "";
+		// if (body) {
+		// 	return {
+		// 		comment_id: body,
+		// 		comment_body: body,
+		// 	};
+		// }
 
-		console.log("context eventName", context.eventName);
 		console.log("CONTEXT", context);
+		console.log("OCTOKIT", octokit);
 
 		const args = {
 			owner,

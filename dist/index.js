@@ -9858,14 +9858,17 @@ async function run() {
 			return outVars;
 		}
 
-		// eventName === "pull_request"
+		const { body } = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.pull_request;
 
-		const body = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.eventName === "issue_comment"
-      	? _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.comment.body
-      	: _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.pull_request.body || "";
+		// if (body) {
+		// 	return {
+		// 		comment_id: body,
+		// 		comment_body: body,
+		// 	};
+		// }
 
-		console.log("context eventName", _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.eventName);
 		console.log("CONTEXT", _actions_github__WEBPACK_IMPORTED_MODULE_1__.context);
+		console.log("OCTOKIT", octokit);
 
 		const args = {
 			owner,

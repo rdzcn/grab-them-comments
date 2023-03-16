@@ -12,7 +12,7 @@ async function run() {
 	const token = getInput("token");
 	const octokit = getOctokit(token);
 
-	async function findComment() {
+	async function findSearchTerm() {
 		const outVars = {
 			comment_id: "",
 			comment_body: "",
@@ -23,16 +23,18 @@ async function run() {
 			return outVars;
 		}
 
-		// const { body } = context.payload.pull_request;
+		// check in Description
+		const { body } = context.payload.pull_request;
 
-		// if (body) {
-		// 	info("Comment found in Description");
-		// 	return {
-		// 		comment_id: body,
-		// 		comment_body: body,
-		// 	};
-		// }
+		if (body) {
+			info("Comment found in Description");
+			return {
+				comment_id: body,
+				comment_body: body,
+			};
+		}
 
+		// check in Comments
 		const args = {
 			owner,
 			repo,
@@ -61,10 +63,7 @@ async function run() {
 
 		info("Comment not found.");
 
-		return {
-			comment_id: "",
-			comment_body: "",
-		};
+		return outVars;
 	}
 
 	try {
@@ -75,8 +74,7 @@ async function run() {
 		issueNumber = getInput("number");
 		searchTerm = getInput("search_term");
 
-		let outVars = { comment_id: "", comment_body: "" };
-		outVars = await findComment();
+		const outVars = await findSearchTerm();
 
 		info(`comment_id : ${outVars.comment_id}`);
 		info(`comment_body : ${outVars.comment_body}`);

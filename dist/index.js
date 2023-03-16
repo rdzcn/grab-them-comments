@@ -9847,7 +9847,7 @@ async function run() {
 	const token = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("token");
 	const octokit = (0,_actions_github__WEBPACK_IMPORTED_MODULE_1__.getOctokit)(token);
 
-	async function findComment() {
+	async function findSearchTerm() {
 		const outVars = {
 			comment_id: "",
 			comment_body: "",
@@ -9858,16 +9858,18 @@ async function run() {
 			return outVars;
 		}
 
-		// const { body } = context.payload.pull_request;
+		// check in Description
+		const { body } = _actions_github__WEBPACK_IMPORTED_MODULE_1__.context.payload.pull_request;
 
-		// if (body) {
-		// 	info("Comment found in Description");
-		// 	return {
-		// 		comment_id: body,
-		// 		comment_body: body,
-		// 	};
-		// }
+		if (body) {
+			(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)("Comment found in Description");
+			return {
+				comment_id: body,
+				comment_body: body,
+			};
+		}
 
+		// check in Comments
 		const args = {
 			owner,
 			repo,
@@ -9896,10 +9898,7 @@ async function run() {
 
 		(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)("Comment not found.");
 
-		return {
-			comment_id: "",
-			comment_body: "",
-		};
+		return outVars;
 	}
 
 	try {
@@ -9910,8 +9909,7 @@ async function run() {
 		issueNumber = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("number");
 		searchTerm = (0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.getInput)("search_term");
 
-		let outVars = { comment_id: "", comment_body: "" };
-		outVars = await findComment();
+		const outVars = await findSearchTerm();
 
 		(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`comment_id : ${outVars.comment_id}`);
 		(0,_actions_core__WEBPACK_IMPORTED_MODULE_0__.info)(`comment_body : ${outVars.comment_body}`);
